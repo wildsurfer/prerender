@@ -1,4 +1,4 @@
-FROM node:9.8.0-stretch
+FROM node:10.15.1-stretch
 LABEL maintainer="kuzma.wm@gmail.com"
 
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
