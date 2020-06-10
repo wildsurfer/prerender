@@ -2,6 +2,53 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 5.6.0 - 2019-03-27
+### Changed
+- added configurable options for pdf printing to let you override all options necessary using `this.options.pdfOptions`
+- fixed timeouts on redirects
+- added ability to override other express options on the `.listen()` function by passing in an object now instead of just the port
+
+## 5.5.1 - 2019-02-06
+### Changed
+- We were relying on `document.doctype` to return the full doctype string but that string changed in Chrome v72. We now parse the full doctype object directly in order to build the proper doctype and this change is backwards compatible with older Chrome versions.
+
+## 5.5.0 - 2019-02-06
+### Added
+- Added `domContentEventFired` so that `checkIfPageIsDoneLoading` will wait at least for `domContentEventFired` before also waiting for all network requests to finish. This should hopefully take care of any edge cases where a page is saved too early when Chrome doesn't send new network requests during the parsing of a large .js file.
+
+## 5.4.5 - 2018-12-04
+### Changed
+- fixed issue with creating browser tabs in a new context (to clear cookies/local storage)
+- `LOG_REQUESTS` shows console logging from the webpage being loaded
+- fixed `this.options.followRedirect` typo to now be `this.options.followRedirects`
+
+## 5.4.4 - 2018-08-07
+### Changed
+- Updated Mocha to 5.2.0, Sinon to 6.1.4 and a few minor package numbers
+- Added package-lock.json
+
+
+## 5.4.3 - 2018-08-07
+### Changed
+- Removed a check for success in the response of `Target.disposeBrowserContext` to fix an issue with Chrome 68 removing that response object.
+
+
+## 5.4.2 - 2018-04-05
+### Changed
+- Removed the `Page.addScriptToEvaluateOnNewDocument({source: 'localStorage.clear()'})` since it seemed to be causing an issue with Chrome in some cases. Going to look for a better fix here since our context should be clearing this already.
+
+
+## 5.4.1 - 2018-04-05
+### Changed
+- For checking if a URL returns a redirect, we were checking to see if the request returning the redirect URL matched which failed in some cases where the encoding of the URL was different in the request. That code now checks the request ID to see if it matches the original request.
+- Service worker enable/disable can be enabled/disabled on a per tab basis by setting `req.prerender.enableServiceWorker` in the `requestReceived` event.
+
+
+## 5.4.0 - 2018-04-04
+### Changed
+- Added ability to turn on/off services workers.
+
+
 ## 5.3.1 - 2018-03-09
 ### Added
 - Added `this.isBrowserConnected = false` inside `server.restartBrowser()` so the prerender server won't try to render any new requests before the browser is actually restarted. Fixes a very small edge case at scale.
